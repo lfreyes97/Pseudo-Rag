@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pseudo-rag"
+version = "0.1.0"
+description = "Búsqueda textual en streaming + índice FTS5 + semántica opcional"
+requires-python = ">=3.10"
+# `prag grep` solo usa la biblioteca estándar; index/search necesitan estas dos:
+dependencies = ["sqlalchemy>=2.0", "pydantic>=2.0"]
+
+[project.optional-dependencies]
+semantic = ["chromadb>=1.0"]
+web = ["python-fasthtml>=0.12", "uvicorn"]
+all = ["pseudo-rag[semantic,web]"]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv]
+default-groups = ["dev"]
+
+[project.scripts]
+prag = "pseudo_rag.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["pseudo_rag*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
